@@ -5,6 +5,7 @@ const multer = require('multer');
 const session = require('express-session');
 const flash = require('connect-flash');
 const crypto = require('crypto');
+const config = require('./config');
 const app = express();
 const PORT = 3000;
 
@@ -28,7 +29,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 app.use(session({
-  secret: 'secret123',
+  secret: config.sessionSecret,
   resave: false,
   saveUninitialized: true
 }));
@@ -37,7 +38,7 @@ app.use(session({
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'SoiDft2026',
+  password: 'RP738964$',
   database: 'petcare'
 });
 

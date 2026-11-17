@@ -58,9 +58,11 @@ function newJournalForm(req, res) {
 // Handle New Journal Submission
 function createJournal(req, res) {
   const { pet_id, activity, notes, entry_date } = req.body;
+  const userId = req.session.user.id;
 
-  journalModel.createJournal(pet_id, activity, notes, entry_date, (err) => {
+  journalModel.createJournal(userId, pet_id, activity, notes, entry_date, (err, result) => {
     if (err) return res.send('Error saving journal');
+    if (result.affectedRows === 0) return res.status(403).send('Access denied: that pet is not yours.');
 
     // Redirect to journals page and keep selected pet
     res.redirect(`/journals?petId=${pet_id}`);
@@ -72,8 +74,9 @@ function editJournalForm(req, res) {
   const journalId = req.params.id;
   const userId = req.session.user.id;
 
-  journalModel.getJournalById(journalId, (err, journalResults) => {
-    if (err || journalResults.length === 0) return res.send('Journal not found');
+  journalModel.getJournalById(journalId, userId, (err, journalResults) => {
+    if (err) return res.send('Error loading journal');
+    if (journalResults.length === 0) return res.status(403).send('Access denied: this journal entry is not yours.');
 
     petModel.getPetsByOwner(userId, (err2, pets) => {
       if (err2) return res.send('Error fetching pets');
@@ -87,9 +90,11 @@ function editJournalForm(req, res) {
 function updateJournal(req, res) {
   const { entry_date, activity, notes, pet_id } = req.body;
   const journalId = req.params.id;
+  const userId = req.session.user.id;
 
-  journalModel.updateJournal(journalId, entry_date, activity, notes, pet_id, (err) => {
+  journalModel.updateJournal(userId, journalId, entry_date, activity, notes, pet_id, (err, result) => {
     if (err) return res.send('Error updating journal');
+    if (result.affectedRows === 0) return res.status(403).send('Access denied: this journal entry is not yours.');
     res.redirect(`/journals?petId=${pet_id}`); // 🔁 Redirect back to selected pet
   });
 }
@@ -97,18 +102,17 @@ function updateJournal(req, res) {
 // Delete Journal
 function deleteJournal(req, res) {
   const journalId = req.params.id;
+  const userId = req.session.user.id;
 
-  // First, find the pet_id for this journal
-  journalModel.getPetIdForJournal(journalId, (err, result) => {
-    if (err || result.length === 0) return res.send('Journal not found.');
+  // Find the entry (only if it is yours) so we know which pet to go back to
+  journalModel.getJournalById(journalId, userId, (err, result) => {
+    if (err) return res.send('Error loading journal.');
+    if (result.length === 0) return res.status(403).send('Access denied: this journal entry is not yours.');
 
     const petId = result[0].pet_id;
 
-    // Now delete the journal
-    journalModel.deleteJournal(journalId, (err2) => {
+    journalModel.deleteJournal(userId, journalId, (err2) => {
       if (err2) return res.send('Error deleting journal.');
-
-      // Redirect to journals page for the correct pet
       res.redirect(`/journals?petId=${petId}`);
     });
   });

@@ -9,7 +9,7 @@ function signupForm(req, res) {
 
 // Handle Sign Up Submission
 function signup(req, res) {
-  const { username, password, name, role, pet_name, species, breed, age } = req.body;
+const { username, password, name, pet_name, species, breed, age } = req.body;
   let petImage;
   if (req.file) {
     petImage = req.file.filename; // Save only the filename
@@ -18,7 +18,7 @@ function signup(req, res) {
   }
 
   const hashedPassword = sha256Hash(password);
-  userModel.createUser(username, hashedPassword, name, role, (err, result) => {
+  userModel.createUser(username, hashedPassword, name, (err, result) => {
     if (err) {
       console.error('Error creating user:', err);
       req.flash('error', 'Sign up failed. Please try again.');

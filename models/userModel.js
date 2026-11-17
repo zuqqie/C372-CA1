@@ -1,8 +1,8 @@
 const connection = require('../config/db');
 
-function createUser(username, hashedPassword, name, role, callback) {
-  const sql = 'INSERT INTO users (username, password, name, role) VALUES (?, ?, ?, ?)';
-  connection.query(sql, [username, hashedPassword, name, role], callback);
+function createUser(username, hashedPassword, name, callback) {
+  const sql = "INSERT INTO users (username, password, name, role) VALUES (?, ?, ?, 'user')";
+  connection.query(sql, [username, hashedPassword, name], callback);
 }
 
 function findByCredentials(username, hashedPassword, callback) {

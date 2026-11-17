@@ -12,6 +12,17 @@
   <div class="container mt-5">
     <h2 class="mb-4">Pet Care Journals</h2>
 
+    <% if (typeof messages !== 'undefined' && messages.length) { %>
+      <% for (let i = 0; i < messages.length; i++) { %>
+        <div class="alert alert-success" role="status"><%= messages[i] %></div>
+      <% } %>
+    <% } %>
+    <% if (typeof errors !== 'undefined' && errors.length) { %>
+      <% for (let i = 0; i < errors.length; i++) { %>
+        <div class="alert alert-danger" role="alert"><%= errors[i] %></div>
+      <% } %>
+    <% } %>
+
     <form action="/journals/search" method="GET" class="mb-3 d-flex">
         <input type="text" name="q" class="form-control me-2" placeholder="Search activity or notes..." required>
         <% if (selectedPetId) { %>
@@ -55,15 +66,28 @@
             <strong>Pet Info</strong>
         </div>
         <div class="card-body d-flex flex-column align-items-center">
+            <% if (pet.image) { %>
             <img src="/images/<%= pet.image %>" 
                 class="img-thumbnail mb-3" 
-                alt="<%= pet.image %>" 
+                alt="Photo of <%= pet.name %>" 
                 style="width: 200px; height: 200px; object-fit: cover;">
+            <% } else { %>
+            <div class="img-thumbnail mb-3 d-flex align-items-center justify-content-center text-muted"
+                style="width: 200px; height: 200px;">No photo</div>
+            <% } %>
 
             <p><strong>Name:</strong> <%= pet.name %></p>
             <p><strong>Type:</strong> <%= pet.species %></p>
             <p><strong>Breed:</strong> <%= pet.breed %></p>
             <p><strong>Age:</strong> <%= pet.age %> years</p>
+
+            <div class="d-flex gap-2">
+                <a href="/pets/edit/<%= pet.id %>" class="btn btn-sm btn-warning">Edit Pet</a>
+                <form action="/pets/delete/<%= pet.id %>" method="POST" class="m-0"
+                      onsubmit="return confirm('Delete <%= pet.name %> and all of its journal entries?');">
+                    <button type="submit" class="btn btn-sm btn-danger">Delete Pet</button>
+                </form>
+            </div>
         </div>
         </div>
 

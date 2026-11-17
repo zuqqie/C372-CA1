@@ -22,7 +22,9 @@ function listJournals(req, res) {
         pets,
         selectedPetId: '',
         pet: null,
-        session: req.session
+        session: req.session,
+        messages: req.flash('success'),
+        errors: req.flash('error')
       });
     }
 
@@ -37,7 +39,9 @@ function listJournals(req, res) {
         pets,
         selectedPetId,
         pet: petInfo,
-        session: req.session
+        session: req.session,
+        messages: req.flash('success'),
+        errors: req.flash('error')
       });
     });
   });
@@ -141,7 +145,9 @@ function searchJournals(req, res) {
         pets,
         selectedPetId,
         pet,
-        session: req.session
+        session: req.session,
+        messages: req.flash('success'),
+        errors: req.flash('error')
       });
     });
   });

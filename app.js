@@ -28,6 +28,8 @@ app.use(require('./routes/petRoutes'));
 app.use(require('./routes/journalRoutes'));
 app.use(require('./routes/paymentRoutes'));
 app.use(require('./routes/serviceRoutes'));
+app.use(require('./routes/checkoutRoutes'));
+app.use(require('./routes/consultationRoutes'));
 
 // =========================
 // Start Server

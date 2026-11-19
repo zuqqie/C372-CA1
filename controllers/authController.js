@@ -4,12 +4,12 @@ const { sha256Hash } = require('../helpers/hash');
 
 // Sign Up Page
 function signupForm(req, res) {
-  res.render('signup', { session: req.session });
+  res.render('signUp', { session: req.session });
 }
 
 // Handle Sign Up Submission
 function signup(req, res) {
-const { username, password, name, pet_name, species, breed, age } = req.body;
+  const { username, password, name, pet_name, species, breed, age } = req.body;
   let petImage;
   if (req.file) {
     petImage = req.file.filename; // Save only the filename

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ask a Vet</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <%- include('partials/navbar') %>
+
+  <main class="container py-5" style="max-width: 720px;">
+    <h1 class="h2 mb-3">Ask a Vet</h1>
+
+    <div class="alert alert-warning">
+      This form is <strong>not for emergencies</strong>. If your pet is in danger, for example trouble breathing,
+      heavy bleeding or a seizure, take it to a vet clinic right now.
+    </div>
+
+    <% if (errors && errors.length) { %>
+      <% for (let i = 0; i < errors.length; i++) { %>
+        <div class="alert alert-danger" role="alert"><%= errors[i] %></div>
+      <% } %>
+    <% } %>
+
+    <% if (!pets.length) { %>
+      <div class="alert alert-info">Add a pet first. <a href="/pets/new">Add a pet</a></div>
+    <% } else { %>
+      <form action="/consultations" method="POST">
+        <div class="mb-3">
+          <label for="petId" class="form-label">Which pet?</label>
+          <select id="petId" name="petId" class="form-select" required>
+            <option value="">Select a pet</option>
+            <% for (let i = 0; i < pets.length; i++) { %>
+              <option value="<%= pets[i].id %>" <%= selectedPetId === String(pets[i].id) ? 'selected' : '' %>>
+                <%= pets[i].name %> (<%= pets[i].species %>)
+              </option>
+            <% } %>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="concernType" class="form-label">What is the concern about?</label>
+          <select id="concernType" name="concernType" class="form-select" required>
+            <option value="">Select one</option>
+            <% for (let i = 0; i < concernTypes.length; i++) { %>
+              <option value="<%= concernTypes[i] %>"><%= concernTypes[i] %></option>
+            <% } %>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="urgency" class="form-label">How urgent does it feel?</label>
+          <select id="urgency" name="urgency" class="form-select" required>
+            <option value="low">Low - just checking</option>
+            <option value="medium">Medium - I am a bit worried</option>
+            <option value="high">High - it is getting worse</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="symptoms" class="form-label">What did you notice?</label>
+          <textarea id="symptoms" name="symptoms" class="form-control" rows="5"
+            minlength="10" maxlength="1000" required
+            placeholder="For example: eating less for 2 days, hiding under the bed, scratching her ear a lot."></textarea>
+          <div class="form-text">10 to 1000 characters. Say when it started and what changed.</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Send request</button>
+        <a href="/consultations" class="btn btn-outline-secondary">Cancel</a>
+      </form>
+    <% } %>
+  </main>
+
+  <%- include('partials/footer') %>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

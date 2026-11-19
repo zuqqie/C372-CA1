@@ -29,6 +29,13 @@ async function createMockPayment(req, res) {
       return res.status(404).json({ error: 'Service not found' });
    }
  
+   // Improvement on the Lesson 6 code: reject unsupported testStatus values
+   const allowedStatuses = ['APPROVED', 'PENDING', 'DECLINED'];
+   const requestedStatus = req.body?.testStatus;
+   if (requestedStatus !== undefined && !allowedStatuses.includes(requestedStatus)) {
+     return res.status(400).json({ error: 'Unsupported testStatus' });
+   }
+
    const paymentRequest = {
      amount: service.price,
      currency: 'sgd',

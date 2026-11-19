@@ -65,8 +65,14 @@
                     <a href="/receipt/<%= bookings[i].booking_id %>" class="btn btn-sm btn-outline-secondary">Receipt</a>
                   <% } else if (bookings[i].payment_status === 'declined') { %>
                     <a href="/checkout/<%= bookings[i].booking_id %>" class="btn btn-sm btn-primary">Try again</a>
+                    <form method="POST" action="/bookings/cancel/<%= bookings[i].booking_id %>" class="d-inline" onsubmit="return confirm('Cancel this booking?');">
+                      <button type="submit" class="btn btn-sm btn-outline-danger">Cancel</button>
+                    </form>
                   <% } else if (bookings[i].payment_status === 'pending') { %>
                     <a href="/checkout/<%= bookings[i].booking_id %>" class="btn btn-sm btn-primary">Pay now</a>
+                    <form method="POST" action="/bookings/cancel/<%= bookings[i].booking_id %>" class="d-inline" onsubmit="return confirm('Cancel this booking?');">
+                      <button type="submit" class="btn btn-sm btn-outline-danger">Cancel</button>
+                    </form>
                   <% } %>
                 </td>
               </tr>

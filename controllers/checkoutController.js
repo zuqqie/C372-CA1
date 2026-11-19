@@ -27,6 +27,10 @@ function showCheckout(req, res) {
       req.flash('error', 'Booking not found.');
       return res.redirect('/bookings');
     }
+    if (booking.payment_status === 'cancelled') {
+      req.flash('error', 'This booking was cancelled.');
+      return res.redirect('/bookings');
+    }
     if (booking.payment_status === 'approved') {
       req.flash('success', 'This booking is already paid.');
       return res.redirect(`/receipt/${booking.booking_id}`);

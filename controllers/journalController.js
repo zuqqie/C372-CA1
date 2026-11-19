@@ -145,6 +145,7 @@ function searchJournals(req, res) {
         pets,
         selectedPetId,
         pet,
+        searchTerm: String(req.query.q || ''),
         session: req.session,
         messages: req.flash('success'),
         errors: req.flash('error')

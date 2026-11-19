@@ -10,7 +10,9 @@ const pool = mysql.createPool({
   password: config.dbPassword,
   database: 'petcare',
   waitForConnections: true,
-  connectionLimit: 10
+  connectionLimit: 10,
+  // Return DATE columns as 'YYYY-MM-DD' text so the day never shifts with the time zone
+  dateStrings: ['DATE']
 });
 
 module.exports = pool;

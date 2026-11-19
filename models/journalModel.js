@@ -16,6 +16,7 @@ function getJournalsByPetAndOwner(ownerId, petId, callback) {
     FROM journal 
     JOIN pets ON journal.pet_id = pets.id 
     WHERE pets.owner_id = ? AND pets.id = ?
+    ORDER BY journal.entry_date DESC, journal.id DESC
   `;
   connection.query(sql, [ownerId, petId], callback);
 }
@@ -74,6 +75,8 @@ function searchJournals(ownerId, searchQuery, selectedPetId, callback) {
     sql += ' AND pets.id = ?';
     params.push(selectedPetId);
   }
+
+  sql += ' ORDER BY journal.entry_date DESC, journal.id DESC';
 
   connection.query(sql, params, callback);
 }

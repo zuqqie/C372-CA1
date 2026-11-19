@@ -106,4 +106,38 @@ function listBookings(req, res) {
   });
 }
 
-module.exports = { listServices, createBooking, listBookings };
+// POST /bookings/cancel/:id
+function cancelBooking(req, res) {
+  const bookingId = req.params.id;
+  if (!isPositiveInteger(bookingId)) {
+    req.flash('error', 'Booking not found.');
+    return res.redirect('/bookings');
+  }
+
+  serviceBookingModel.cancelBooking(req.session.user.id, Number(bookingId), (err, cancelled) => {
+    if (err) {
+      console.error(err);
+      req.flash('error', 'Unable to cancel the booking. Please try again.');
+      return res.redirect('/bookings');
+    }
+    if (!cancelled) {
+      req.flash('error', 'This booking cannot be cancelled.');
+      return res.redirect('/bookings');
+    }
+    req.flash('success', 'Booking cancelled.');
+    res.redirect('/bookings');
+  });
+}
+
+// GET /admin/bookings
+function adminListBookings(req, res) {
+  serviceBookingModel.getAllBookings((err, bookings) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Unable to load bookings.');
+    }
+    res.render('adminBookings', { bookings, session: req.session });
+  });
+}
+
+module.exports = { listServices, createBooking, listBookings, cancelBooking, adminListBookings };

@@ -1,9 +1,16 @@
 const userModel = require('../models/userModel');
 const petModel = require('../models/petModel');
 const journalModel = require('../models/journalModel');
+const statsModel = require('../models/statsModel');
 
 function dashboard(req, res) {
-  res.render('adminDashboard', { session: req.session });
+  statsModel.getAdminStats((err, stats) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Unable to load the dashboard.');
+    }
+    res.render('adminDashboard', { stats, session: req.session });
+  });
 }
 
 // View All Users

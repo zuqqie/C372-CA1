@@ -9,4 +9,12 @@ function isAdmin(req, res, next) {
   res.send('Access Denied!');
 }
 
-module.exports = { isLoggedIn, isAdmin };
+// Admins manage the site; they do not keep journals or book services.
+function blockAdmin(req, res, next) {
+  if (req.session.user && req.session.user.role === 'admin') {
+    return res.redirect('/admin/dashboard');
+  }
+  next();
+}
+
+module.exports = { isLoggedIn, isAdmin, blockAdmin };

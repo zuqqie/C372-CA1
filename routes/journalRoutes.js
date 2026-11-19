@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { isLoggedIn } = require('../middleware/auth');
+const { isLoggedIn, blockAdmin } = require('../middleware/auth');
 const journalController = require('../controllers/journalController');
 
+router.use('/journals', isLoggedIn, blockAdmin);
 router.get('/journals', isLoggedIn, journalController.listJournals);
 router.get('/journals/new', isLoggedIn, journalController.newJournalForm);
 router.post('/journals/new', isLoggedIn, journalController.createJournal);

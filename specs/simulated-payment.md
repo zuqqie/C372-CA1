@@ -41,5 +41,27 @@ SP6: testStatus other than APPROVED or DECLINED is rejected, nothing changed.
 SP7: Extra form field such as amount=1 is ignored; amount stays the saved price.
 SP8: Logged-out user is redirected to /login.
 
-## 7. Out of scope
+## 7. Cancel an unpaid booking (added later)
+- POST /bookings/cancel/:id (login required, owner only).
+- Allowed only while the payment is pending or declined.
+- Booking and payment both become `cancelled` in one transaction.
+- A cancelled booking cannot be paid. An approved booking cannot be cancelled.
+- Cancel is a POST (not a link) and the browser asks "Cancel this booking?" first.
+SP9: Cancel a pending booking -> both cancelled, Pay now no longer shown.
+SP10: Cancel a declined booking -> both cancelled.
+SP11: Cancel an approved booking -> refused, status unchanged.
+SP12: Another user cannot cancel my booking. A GET to the cancel URL does nothing (404).
+SP13: Paying or opening checkout for a cancelled booking is refused.
+
+## 8. Admin: all bookings and payments (added later)
+- GET /admin/bookings (admin only) lists every booking with owner, pet, service,
+  price, booking status, payment status and reference, plus summary counts.
+- Totals are simulated. Normal users get "Access Denied!".
+
+## 9. Lesson 6 endpoint improvement
+POST /payments/mock/:serviceId now returns 400 {"error":"Unsupported testStatus"}
+for any value other than APPROVED, PENDING or DECLINED. No testStatus still
+defaults to PENDING. Lesson 6 noted that unsupported values used to pass through.
+
+## 10. Out of scope
 Real gateway, card form, refunds, webhooks, admin payment pages.

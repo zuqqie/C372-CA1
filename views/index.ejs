@@ -17,6 +17,9 @@
       <% if (!session || !session.user) { %>
         <a href="/signup" class="btn btn-primary btn-lg me-2">Get Started</a>
         <a href="/login" class="btn btn-outline-secondary btn-lg">Log in</a>
+      <% } else if (session.user.role === 'admin') { %>
+        <a href="/admin/dashboard" class="btn btn-primary btn-lg me-2">Admin Dashboard</a>
+        <a href="/admin/bookings" class="btn btn-outline-secondary btn-lg">Customer Bookings</a>
       <% } else { %>
         <a href="/journals" class="btn btn-primary btn-lg me-2">View My Journals</a>
         <a href="/services" class="btn btn-outline-secondary btn-lg">Book a Service</a>

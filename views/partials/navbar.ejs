@@ -9,27 +9,16 @@
       <ul class="navbar-nav ms-auto">
         <% if (session && session.user) { %>
           <% if (session.user.role === 'admin') { %>
-            <li class="nav-item">
-              <a class="nav-link" href="/admin/users">View Users</a>
-            </li>
+            <li class="nav-item"><a class="nav-link" href="/admin/dashboard">Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="/admin/users">Customers</a></li>
+            <li class="nav-item"><a class="nav-link" href="/admin/bookings">Customer Bookings</a></li>
+            <li class="nav-item"><a class="nav-link" href="/admin/consultations">Consultation Inbox</a></li>
+          <% } else { %>
+            <li class="nav-item"><a class="nav-link" href="/journals">Journals</a></li>
+            <li class="nav-item"><a class="nav-link" href="/services">Book a Service</a></li>
+            <li class="nav-item"><a class="nav-link" href="/bookings">Booking History</a></li>
+            <li class="nav-item"><a class="nav-link" href="/consultations">Consultations</a></li>
           <% } %>
-          
-          <li class="nav-item">
-            <a class="nav-link" href="/journals">Journals</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/services">Book a Service</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/bookings">Booking History</a>
-          </li>
-          <li class="nav-item">
-            <% if (session.user.role === 'admin') { %>
-              <a class="nav-link" href="/admin/consultations">Consultation Inbox</a>
-            <% } else { %>
-              <a class="nav-link" href="/consultations">Consultations</a>
-            <% } %>
-          </li>
           <li class="nav-item">
             <a class="nav-link" href="/logout">Logout</a>
           </li>

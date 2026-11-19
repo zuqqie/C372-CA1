@@ -188,3 +188,100 @@ hr { border-color: var(--pc-line); opacity: 1; }
   .container, main.container { padding-left: 16px; padding-right: 16px; }
   .pc-hero { padding: 2.25rem 1rem; }
 }
+
+/* Keep nav links on one line (admin has extra links) */
+.pc-navbar .nav-link { white-space: nowrap; }
+.pc-navbar .navbar-nav { flex-wrap: nowrap; }
+@media (max-width: 991.98px) { .pc-navbar .navbar-nav { flex-wrap: wrap; } }
+
+/* ---------- Journal page ---------- */
+.pc-pills { display: flex; flex-wrap: wrap; gap: .5rem; }
+.pc-pill {
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .35rem .9rem .35rem .4rem; border-radius: 999px;
+  background: var(--pc-surface); border: 1px solid var(--pc-line);
+  color: var(--pc-brown-700); text-decoration: none; font-weight: 600;
+  transition: background .15s, border-color .15s;
+}
+.pc-pill:hover { border-color: var(--pc-caramel); color: var(--pc-brown-900); }
+.pc-pill.active { background: var(--pc-brown-700); border-color: var(--pc-brown-700); color: #fff; }
+.pc-pill-dot {
+  width: 28px; height: 28px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--pc-sand); color: var(--pc-brown-900); font-size: .85rem; font-weight: 700;
+}
+.pc-pill.active .pc-pill-dot { background: var(--pc-caramel); color: #fff; }
+
+.pc-pet-card {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem;
+  background: linear-gradient(135deg, #fffaf3 0%, #f1e6d5 100%);
+  border: 1px solid var(--pc-line); border-radius: 22px;
+  padding: 1.5rem; box-shadow: 0 8px 24px rgba(59, 44, 36, 0.08);
+}
+.pc-pet-photo {
+  width: 130px; height: 130px; border-radius: 50%; object-fit: cover;
+  border: 4px solid #fff; box-shadow: 0 4px 14px rgba(59, 44, 36, 0.2);
+}
+.pc-pet-photo-empty {
+  display: flex; align-items: center; justify-content: center;
+  background: var(--pc-sand); color: var(--pc-brown-700);
+  font-family: 'Lora', Georgia, serif; font-size: 3rem;
+}
+.pc-chip {
+  background: var(--pc-sand); color: var(--pc-brown-700);
+  border-radius: 999px; padding: .25rem .8rem; font-size: .85rem; font-weight: 700;
+}
+.pc-stats { display: flex; gap: .75rem; }
+.pc-stat {
+  min-width: 84px; text-align: center; background: rgba(255, 255, 255, .7);
+  border: 1px solid var(--pc-line); border-radius: 14px; padding: .7rem .9rem;
+}
+.pc-stat-num { font-family: 'Lora', Georgia, serif; font-size: 1.6rem; font-weight: 700; color: var(--pc-brown-900); line-height: 1.1; }
+.pc-stat-small { font-size: 1.15rem; padding-top: .3rem; }
+.pc-stat-label { font-size: .75rem; color: var(--pc-muted); text-transform: uppercase; letter-spacing: .6px; }
+
+.pc-search { display: flex; flex-wrap: wrap; gap: .5rem; }
+.pc-search .form-control { flex: 1 1 220px; }
+
+.pc-timeline { position: relative; display: flex; flex-direction: column; gap: 1rem; }
+.pc-entry {
+  display: flex; gap: 1.1rem; align-items: flex-start;
+  background: var(--pc-surface); border: 1px solid var(--pc-line);
+  border-radius: var(--pc-radius); padding: 1rem 1.25rem;
+  box-shadow: 0 2px 8px rgba(59, 44, 36, 0.05);
+  transition: box-shadow .15s, transform .15s, border-color .15s;
+}
+.pc-entry:hover { box-shadow: 0 8px 20px rgba(59, 44, 36, 0.12); transform: translateY(-2px); border-color: var(--pc-caramel); }
+.pc-date {
+  flex: 0 0 66px; text-align: center; border-radius: 12px; padding: .5rem 0;
+  background: var(--pc-brown-700); color: #f5efe6;
+}
+.pc-date-day { display: block; font-family: 'Lora', Georgia, serif; font-size: 1.6rem; font-weight: 700; line-height: 1; }
+.pc-date-month { display: block; font-size: .8rem; text-transform: uppercase; letter-spacing: 1px; color: #e8dccb; }
+.pc-date-year { display: block; font-size: .7rem; color: var(--pc-caramel); }
+.pc-entry-body { flex: 1; min-width: 0; }
+.pc-entry-icon { margin-right: .2rem; }
+
+.pc-empty {
+  text-align: center; padding: 3rem 1rem;
+  background: var(--pc-surface); border: 1px dashed var(--pc-caramel); border-radius: 22px;
+}
+.pc-empty-icon { font-size: 2.6rem; margin-bottom: .5rem; }
+
+/* ---------- Admin dashboard tiles ---------- */
+.pc-tile {
+  background: var(--pc-surface); border: 1px solid var(--pc-line);
+  border-radius: var(--pc-radius); padding: 1.1rem 1.2rem; height: 100%;
+  border-left: 5px solid var(--pc-caramel);
+  box-shadow: 0 2px 8px rgba(59, 44, 36, 0.06);
+}
+.pc-tile-num { font-family: 'Lora', Georgia, serif; font-size: 1.9rem; font-weight: 700; color: var(--pc-brown-900); line-height: 1.1; }
+.pc-tile-label { color: var(--pc-muted); font-size: .85rem; margin-top: .25rem; }
+
+@media (max-width: 576px) {
+  .pc-pet-card { padding: 1.1rem; }
+  .pc-stats { width: 100%; }
+  .pc-stat { flex: 1; }
+  .pc-entry { padding: .85rem; gap: .8rem; }
+  .pc-date { flex-basis: 54px; }
+}

@@ -45,7 +45,12 @@ function viewUserDetails(req, res) {
 // Delete Users
 function deleteUser(req, res) {
   const userId = req.params.id;
-  console.log(userId);
+
+  // An admin must not delete their own account by accident
+  if (String(userId) === String(req.session.user.id)) {
+    return res.status(400).send('You cannot delete your own account.');
+  }
+
   userModel.deleteUser(userId, (err) => {
     if (err) {
       console.error('Error deleting user:', err);

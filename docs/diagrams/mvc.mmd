@@ -1,0 +1,10 @@
+flowchart LR
+    B[Browser] -->|HTTP request| R[Routes<br/>method + URL + middleware]
+    R -->|isLoggedIn / isAdmin| M[Middleware<br/>auth.js]
+    M --> C[Controllers<br/>read request, decide flow]
+    C -->|SQL via callbacks| MO[Models<br/>all SQL queries]
+    MO --> DB[(MySQL petcare)]
+    DB --> MO --> C
+    C -->|res.render + data| V[Views<br/>EJS templates]
+    V -->|HTML response| B
+    CFG[config.js<br/>git-ignored secrets] -.-> MO

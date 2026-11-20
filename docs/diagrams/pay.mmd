@@ -1,0 +1,19 @@
+sequenceDiagram
+    actor U as Pet owner
+    participant C as checkoutController
+    participant P as mockPaymentProvider
+    participant M as paymentModel
+    participant D as MySQL
+    U->>C: GET /checkout/:bookingId
+    C->>M: getOwnedBookingPayment(ownerId, bookingId)
+    M->>D: SELECT booking + payment (only if the pet is yours)
+    C-->>U: checkout page (amount from the saved payment)
+    U->>C: POST /checkout/:bookingId (APPROVED or DECLINED)
+    C->>P: createPayment(amount from database, testStatus)
+    P-->>C: provider id + status
+    C->>M: savePaymentResult(...)
+    M->>D: BEGIN
+    M->>D: UPDATE payments (only if pending or declined)
+    M->>D: UPDATE service_bookings (confirmed or payment_failed)
+    M->>D: COMMIT
+    C-->>U: redirect /receipt/:bookingId (approved or declined message)

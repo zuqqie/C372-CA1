@@ -1,0 +1,65 @@
+erDiagram
+    direction LR
+    USERS ||--o{ PETS : owns
+    PETS ||--o{ JOURNAL : has
+    PETS ||--o{ SERVICE_BOOKINGS : has
+    PETS ||--o{ CONSULTATIONS : asks_about
+    USERS ||--o{ CONSULTATIONS : replies_to
+    SERVICES ||--o{ SERVICE_BOOKINGS : booked_as
+    SERVICE_BOOKINGS ||--o{ PAYMENTS : paid_by
+    USERS {
+        int id PK
+        string username UK
+        char password "SHA-256 hash"
+        string name
+        enum role "admin or user"
+        timestamp created_at
+    }
+    PETS {
+        int id PK
+        int owner_id FK
+        string name
+        string species
+        string breed
+        int age
+        string image
+    }
+    JOURNAL {
+        int id PK
+        int pet_id FK
+        string activity
+        text notes
+        date entry_date
+    }
+    SERVICES {
+        int id PK
+        string name
+        decimal price
+        bool is_active
+    }
+    SERVICE_BOOKINGS {
+        int id PK
+        int pet_id FK
+        int service_id FK
+        string booking_status
+        decimal booked_price
+        date booking_date
+    }
+    PAYMENTS {
+        int id PK
+        int booking_id FK
+        decimal amount
+        string payment_status
+        string payment_reference
+    }
+    CONSULTATIONS {
+        int id PK
+        int pet_id FK
+        string concern_type
+        text symptoms
+        enum urgency
+        enum status "open or answered"
+        text vet_reply
+        int replied_by FK
+        datetime replied_at
+    }

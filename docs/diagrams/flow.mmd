@@ -1,0 +1,17 @@
+sequenceDiagram
+    actor U as Pet owner
+    participant R as serviceRoutes
+    participant C as serviceController
+    participant M as serviceBookingModel
+    participant D as MySQL
+    U->>R: POST /services/book (pet, service, date)
+    R->>R: isLoggedIn
+    R->>C: createBooking
+    C->>C: validate input
+    C->>M: createPendingBooking(ownerId, petId, serviceId, date)
+    M->>D: BEGIN transaction
+    M->>D: INSERT service_bookings (only if pet is yours and service is active; price comes from services table)
+    M->>D: INSERT payments (status pending)
+    M->>D: COMMIT
+    M-->>C: success
+    C-->>U: redirect /bookings with flash message
